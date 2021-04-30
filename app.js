@@ -1,13 +1,17 @@
-const express = require("express");
 const morgan = require("morgan");
+const express = require("express");
+const wiki = require("./routes/wiki");
 const html = require("./views/layout");
+const users = require("./routes/users");
 const { db, Page, User } = require("./models");
-const app = express();
 const port = 3000;
+const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 app.use(express.static("./public"));
+app.use("/wiki", wiki);
+app.use("/users", users);
 
 db.authenticate().then(() => {
   console.log("connected to the database. Hooray!");
